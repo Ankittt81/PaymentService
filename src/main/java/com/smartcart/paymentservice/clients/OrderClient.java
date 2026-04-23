@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "order-service",url = "${order.service.url}")
 public interface OrderClient {
 
-    @GetMapping()
+    @GetMapping("/orders")
     OrderResponseDto getOrderById(@RequestParam("orderId") Long orderId);
 }
