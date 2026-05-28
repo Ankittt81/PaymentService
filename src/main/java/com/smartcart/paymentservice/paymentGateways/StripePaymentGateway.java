@@ -40,7 +40,7 @@ public class StripePaymentGateway implements PaymentGateway {
                     PaymentLinkCreateParams.builder();
             for (OrderItemResponseDto item : order.getItems()) {
                 Product product = Product.create(
-                        Map.of("name", item.getProductName())
+                        Map.of("name", item.getProductTitle())
                 );
                 Price price = Price.create(
                         Map.of(
@@ -58,6 +58,25 @@ public class StripePaymentGateway implements PaymentGateway {
                                 .build()
                 );
             }
+            builder.setAfterCompletion(
+                    PaymentLinkCreateParams
+                            .AfterCompletion
+                            .builder()
+                            .setType(
+                                    PaymentLinkCreateParams
+                                            .AfterCompletion
+                                            .Type.REDIRECT
+                            )
+                            .setRedirect(
+                                    PaymentLinkCreateParams
+                                            .AfterCompletion
+                                            .Redirect
+                                            .builder()
+                                            .setUrl("http://localhost:5173/payment/success?orderId=" + order.getOrderId())
+                                            .build()
+                            )
+                            .build()
+            );
 //            builder.setClientReferenceId(paymentId.toString());
 //            builder.setMetadata(Map.of("paymentId", paymentId.toString()));
             PaymentLink paymentLink = PaymentLink.create(builder.build());
@@ -69,7 +88,8 @@ public class StripePaymentGateway implements PaymentGateway {
             return response;
 
         }catch (Exception e){
-            throw new RuntimeException("Stripe error: " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Stripe error: " + e);
         }
 
     }

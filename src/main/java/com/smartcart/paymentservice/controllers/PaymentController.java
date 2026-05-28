@@ -1,5 +1,6 @@
 package com.smartcart.paymentservice.controllers;
 
+import com.smartcart.paymentservice.dtos.PaymentInitiationResponse;
 import com.smartcart.paymentservice.services.PaymentService;
 import com.stripe.exception.StripeException;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,7 @@ public class PaymentController {
     }
 
     @PostMapping("/initiate")
-    public String generatePaymentLink(@RequestParam("orderId") Long orderId) throws StripeException {
+    public String  generatePaymentLink(@RequestParam("orderId") Long orderId) throws StripeException {
         return paymentService.generatePaymentLink(orderId);
     }
 }

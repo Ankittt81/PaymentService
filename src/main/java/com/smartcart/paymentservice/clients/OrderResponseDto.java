@@ -15,11 +15,7 @@ public class OrderResponseDto {
     private Long orderId;
     private Long userId;
     private BigDecimal totalAmount;
-
     private OrderStatus orderStatus;
     private PaymentStatus paymentStatus;
-
-    private String shippingAddress;
-
     private List<OrderItemResponseDto> items;
 }
